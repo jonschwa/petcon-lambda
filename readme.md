@@ -1,4 +1,4 @@
-## Lambda function to import Petcon attendees who sign up for our photoshoot into shootproof
+### Lambda function to import Petcon attendees who sign up for our photoshoot into shootproof
 
 Made with love for NYC Pet Photographer for Petcon 2018 in NYC
 
