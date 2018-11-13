@@ -1,6 +1,5 @@
 const rp = require('request-promise')
 
-// @todo set env var
 const apiKey = process.env('SHOOTPROOF_API_KEY')
 
 async function createContact (data) {
@@ -16,24 +15,15 @@ async function createContact (data) {
     notes: composeNotes(data)
   }
 
-  console.log(postData)
-
-  // try {
   const resp = await rp.post({
     uri: `https://api.shootproof.com/v2?method=${params.method}&access_token=${apiKey}`,
     form: postData,
     json: true
   })
-  console.log(resp)
-  console.log(resp.contact)
   return resp.contact
-  // } catch (err) {
-  //   console.log(err)
-  // }
 }
 
 async function createGallery (data, contact) {
-  console.log(contact)
   const galleryId = composeGalleryId(data)
   const params = {
     method: 'sp.event.create',
@@ -46,9 +36,6 @@ async function createGallery (data, contact) {
     url_slug: `petcon-${galleryId},`
   }
 
-  console.log(postData)
-
-  // try {
   const resp = await rp.post({
     uri: `https://api.shootproof.com/v2?method=${params.method}&access_token=${apiKey}`,
     form: postData,
@@ -56,17 +43,7 @@ async function createGallery (data, contact) {
   })
   console.log(resp.event)
   return resp.event
-  // } catch (err) {
-  //   console.log(err)
-  // }
 }
-
-// input_data = {
-//   first_name: 'javascript',
-//   last_name: 'test',
-//   email: 'js@test.com',
-//   pet_name: 'testpetjs'
-// }
 
 function composeNotes (data) {
   return `Pet(s): ${data.Pet_Names}`
@@ -82,7 +59,7 @@ function composeGalleryId (data) {
 
 async function handle (data) {
   let [contact, gallery] = [false, false]
-  // try {
+
   contact = await createContact(data)
   console.log('created contact')
   console.log(contact)
@@ -97,10 +74,6 @@ async function handle (data) {
   } else {
     throw new Error('error')
   }
-
-  // } catch (err) {
-  //   console.log(err)
-  // }
 }
 
 exports.handler = async function (event, context, callback) {
@@ -111,7 +84,6 @@ exports.handler = async function (event, context, callback) {
       body: 'that sync worked!'
     })
   } catch (err) {
-    console.log('shit')
     return callback(null, {
       statusCode: 400,
       body: 'shits fucked'
