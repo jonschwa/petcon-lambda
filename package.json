@@ -1,0 +1,16 @@
+{
+  "name": "petcon-lambda",
+  "version": "1.0.0",
+  "description": "Send notification emails from google sheets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jon Schwartz",
+  "license": "ISC",
+  "dependencies": {
+    "netlify-lambda": "^1.0.3",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2"
+  }
+}
