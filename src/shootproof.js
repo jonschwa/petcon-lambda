@@ -14,7 +14,7 @@ async function createContact (data) {
     first_name: data.First_Name,
     last_name: data.Last_Name,
     email: data.Email_Address,
-    notes: composeNotes(data)
+    notes: `Pet(s): ${data.Pet_Names}`
   }
 
   const resp = await rp.post({
@@ -27,16 +27,15 @@ async function createContact (data) {
 }
 
 async function createGallery (data, contact) {
-  const galleryId = composeGalleryId(data)
   const params = {
     method: 'sp.event.create',
     access_token: apiKey
   }
   const postData = {
     brand_id: 41673,
-    event_name: composeGalleryName(data),
+    event_name: `Petcon ${contact.email} - ${data.Pet_Names.replace(/[\W]+/g, '+')}`,
     contact_id: contact.id,
-    url_slug: `petcon-${galleryId},`
+    url_slug: `petcon-${contact.id},`
   }
 
   const resp = await rp.post({
@@ -46,18 +45,6 @@ async function createGallery (data, contact) {
   })
   console.log(resp)
   return resp.event
-}
-
-function composeNotes (data) {
-  return `Pet(s): ${data.Pet_Names}`
-}
-
-function composeGalleryName (data) {
-  return `Petcon ${composeGalleryId(data)} - ${data.Pet_Names}`
-}
-
-function composeGalleryId (data) {
-  return 12345
 }
 
 async function handle (data) {
@@ -72,7 +59,6 @@ async function handle (data) {
     gallery = await createGallery(data, contact)
     console.log('created gallery')
     console.log(gallery)
-    console.log('sending email')
     return gallery
   } else {
     throw new Error('error')
@@ -80,6 +66,7 @@ async function handle (data) {
 }
 
 exports.handler = async function (event, context, callback) {
+  console.log(event)
   try {
     await handle(JSON.parse(event.body))
     return callback(null, {
