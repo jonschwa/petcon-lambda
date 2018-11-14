@@ -1,6 +1,8 @@
 const rp = require('request-promise')
 
-const apiKey = process.env.SHOOTPROOF_API_KEY
+const apiKey = 'a565f50b945a18edb725b1e379f8a334ed133eb9'
+
+console.log(apiKey)
 
 async function createContact (data) {
   const params = {
@@ -20,6 +22,7 @@ async function createContact (data) {
     form: postData,
     json: true
   })
+  console.log(resp)
   return resp.contact
 }
 
@@ -41,7 +44,7 @@ async function createGallery (data, contact) {
     form: postData,
     json: true
   })
-  console.log(resp.event)
+  console.log(resp)
   return resp.event
 }
 
@@ -61,10 +64,10 @@ async function handle (data) {
   let [contact, gallery] = [false, false]
 
   contact = await createContact(data)
-  console.log('created contact')
-  console.log(contact)
 
   if (contact) {
+    console.log('created contact')
+    console.log(contact)
     console.log('creating gallery...')
     gallery = await createGallery(data, contact)
     console.log('created gallery')
@@ -84,9 +87,10 @@ exports.handler = async function (event, context, callback) {
       body: 'that sync worked!'
     })
   } catch (err) {
-    return callback(null, {
+    console.log(err)
+    return callback('error!', {
       statusCode: 400,
-      body: 'shits fucked'
+      body: err
     })
   }
 }
