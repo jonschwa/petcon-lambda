@@ -2,8 +2,6 @@ const rp = require('request-promise')
 
 const apiKey = 'a565f50b945a18edb725b1e379f8a334ed133eb9'
 
-console.log(apiKey)
-
 async function createContact (data) {
   const params = {
     method: 'sp.contact.create',
@@ -35,7 +33,7 @@ async function createGallery (data, contact) {
     brand_id: 41673,
     event_name: `Petcon ${contact.email} - ${data.Pet_Names.replace(/[\W]+/g, '+')}`,
     contact_id: contact.id,
-    url_slug: `petcon-${contact.id},`
+    url_slug: `petcon-${contact.id}`
   }
 
   const resp = await rp.post({
