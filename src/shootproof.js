@@ -8,7 +8,7 @@ async function createContact (data) {
     access_token: apiKey
   }
   const postData = {
-    brand_id: 41673,
+    brand_id: process.env.SHOOTPROOF_BRAND_ID,
     first_name: data.First_Name,
     last_name: data.Last_Name,
     email: data.Email_Address,
@@ -30,7 +30,7 @@ async function createGallery (data, contact) {
     access_token: apiKey
   }
   const postData = {
-    brand_id: 41673,
+    brand_id: process.env.SHOOTPROOF_BRAND_ID,
     event_name: `Petcon ${contact.email} - ${data.Pet_Names.replace(/[\W]+/g, '+')}`,
     contact_id: contact.id,
     url_slug: `petcon-${contact.id}`
