@@ -1,6 +1,6 @@
 const rp = require('request-promise')
 
-const apiKey = 'a565f50b945a18edb725b1e379f8a334ed133eb9'
+const apiKey = process.env.SHOOTPROOF_API_KEY
 
 async function createContact (data) {
   const params = {
